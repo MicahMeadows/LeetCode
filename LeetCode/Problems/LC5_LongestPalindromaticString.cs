@@ -10,7 +10,8 @@ namespace LeetCode.Problems
     {
         public static string LongestPalindrome(string s)
         {
-            string longestPalindrome = "";
+            int longestL = 0;
+            int longestR = 0;
             Dictionary<char, List<int>> letterPositions = new();
 
             // add all letter indexes to dictionary
@@ -22,12 +23,14 @@ namespace LeetCode.Problems
                 letterPositions[theLetter].Add(i);
             }
 
+            // check palindromes of each letter in hash
             foreach (var letter in letterPositions)
             {
                 // if the letter doesnt exist more than once it cant be the start of a palindrome
                 if (letter.Value.Count < 2)
                     continue;
 
+                // loop through each potential letter
                 for (int i = 0; i < letter.Value.Count - 1; i++)
                 {
                     //for (int j = i + 1; j < letter.Value.Count; j++)
@@ -40,9 +43,8 @@ namespace LeetCode.Problems
 
                         Console.WriteLine($"{valL} <-> {valR} potPal: {s.Substring(valL, valR - valL + 1)}");
 
-                        if (potentialPalindromeR - potentialPalindromeL + 1 < longestPalindrome.Length)
+                        if (potentialPalindromeR - potentialPalindromeL + 1 < longestR - longestL + 1)
                         {
-
                             i++;
                             j = letter.Value.Count;
                             continue;
@@ -62,20 +64,20 @@ namespace LeetCode.Problems
                         }
                         if (valL > valR)
                         {
-                            int newPalindromeLength = potentialPalindromeR - potentialPalindromeL + 1;
-                            if (newPalindromeLength > longestPalindrome.Length)
+                            if (potentialPalindromeR - potentialPalindromeL + 1 > longestR - longestL + 1)
                             {
-                                longestPalindrome = s.Substring(potentialPalindromeL, newPalindromeLength);
+                                longestL = potentialPalindromeL;
+                                longestR = potentialPalindromeR;
                             }
                         }
                     }
                 }
             }
 
-            if (String.IsNullOrEmpty(longestPalindrome))
-                return s.Length > 0 ? s[0].ToString() : "";
+            if (String.IsNullOrEmpty(s))
+                return "";
 
-            return longestPalindrome;
+            return s.Substring(longestL, longestR - longestL + 1);
         }
     }
 }
