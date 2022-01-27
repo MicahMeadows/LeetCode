@@ -2,7 +2,7 @@
 {
     public static class LC36_ValidSodoku
     {
-        public static bool IsValidSodoku(char[,] board)
+        public static bool IsValidSodoku(char[][] board)
         {
             const int boardSize = 9;
 
@@ -12,7 +12,7 @@
                 HashSet<char> numberSet = new HashSet<char>();
                 for (int col = 0; col < boardSize; col++)
                 {
-                    char curNum = board[row, col];
+                    char curNum = board[row][col];
                     if (curNum == '.')
                         continue;
                     if (numberSet.Contains(curNum))
@@ -27,7 +27,7 @@
                 HashSet<char> numberSet = new HashSet<char>();
                 for (int row = 0; row < boardSize; row++)
                 {
-                    char curNum = board[row, col];
+                    char curNum = board[row][col];
                     if (curNum == '.')
                         continue;
                     if (numberSet.Contains(curNum))
@@ -47,7 +47,9 @@
                     {
                         for (int cellCol = 0; cellCol < boardSize / 3; cellCol++)
                         {
-                            char curNum = board[cellRow, cellCol];
+                            int rowOffset = boxRow * 3;
+                            int colOffset = boxCol * 3;
+                            char curNum = board[rowOffset + cellRow][colOffset + cellCol];
                             if (curNum == '.')
                                 continue;
                             if (numberSet.Contains(curNum))
