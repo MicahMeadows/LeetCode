@@ -8,7 +8,7 @@ using NUnit.Framework;
 namespace LeetCode.Test.Problems_Test
 {
     [TestFixture]
-    public class Test_LC5_LongestPalindromaticString_Test
+    public class Test_LC5_LongestPalindromaticString
     {
         [TestCase("a", ExpectedResult = "a")]
         [TestCase("babad", ExpectedResult = "bab")]
