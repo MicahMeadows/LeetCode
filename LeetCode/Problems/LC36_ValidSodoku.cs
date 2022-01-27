@@ -4,19 +4,17 @@
     {
         public static bool IsValidSodoku(char[,] board)
         {
-            if (board.GetLength(0) % 3 != 0)
-                return false;
-
-            if (board.GetLength(1) % 3 != 0)
-                return false;
+            const int boardSize = 9;
 
             // check all rows for duplicate n*n
-            for (int row = 0; row < board.GetLength(0); row++)
+            for (int row = 0; row < boardSize; row++)
             {
-                HashSet<int> numberSet = new HashSet<int>();
-                for (int col = 0; col < board.GetLength(1); col++)
+                HashSet<char> numberSet = new HashSet<char>();
+                for (int col = 0; col < boardSize; col++)
                 {
-                    int curNum = board[row, col];
+                    char curNum = board[row, col];
+                    if (curNum == '.')
+                        continue;
                     if (numberSet.Contains(curNum))
                         return false;
                     numberSet.Add(curNum);
@@ -24,29 +22,34 @@
             }
 
             // check all columns for duplicate n*n
-            for (int col = 0; col < board.GetLength(1); col++)
+            for (int col = 0; col < boardSize; col++)
             {
-                HashSet<int> numberSet = new HashSet<int>();
-                for (int row = 0; row < board.GetLength(0); row++)
+                HashSet<char> numberSet = new HashSet<char>();
+                for (int row = 0; row < boardSize; row++)
                 {
-                    int curNum = board[row, col];
+                    char curNum = board[row, col];
+                    if (curNum == '.')
+                        continue;
                     if (numberSet.Contains(curNum))
                         return false;
                     numberSet.Add(curNum);
                 }
             }
 
+
             // check all boxes for duplicate n*n
-            for (int boxRow = 0; boxRow < board.GetLength(0) / 3; boxRow++)
+            for (int boxRow = 0; boxRow < boardSize / 3; boxRow++)
             {
-                for (int boxCol = 0; boxCol < board.GetLength(1) / 3; boxCol++)
+                for (int boxCol = 0; boxCol < boardSize / 3; boxCol++)
                 {
-                    HashSet<int> numberSet = new HashSet<int>();
-                    for (int i = 0; i < 3; i++)
+                    HashSet<char> numberSet = new HashSet<char>();
+                    for (int cellRow = 0; cellRow < boardSize / 3; cellRow++)
                     {
-                        for (int j = 0; j < 3; j++)
+                        for (int cellCol = 0; cellCol < boardSize / 3; cellCol++)
                         {
-                            int curNum = board[i, j];
+                            char curNum = board[cellRow, cellCol];
+                            if (curNum == '.')
+                                continue;
                             if (numberSet.Contains(curNum))
                                 return false;
                             numberSet.Add(curNum);
@@ -57,7 +60,6 @@
 
             // n*n + n*n + n*n = 3n*n
             // Time complexity: O(n^2)
-
             return true;
         }
     }
