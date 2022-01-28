@@ -62,6 +62,9 @@
 
             // n*n + n*n + n*n = 3n*n
             // Time complexity: O(n^2)
+
+            // HashMap will max be n size
+            // Space complexity: O(n)
             return true;
         }
     }
