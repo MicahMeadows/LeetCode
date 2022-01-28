@@ -4,13 +4,25 @@
     {
         public static bool IsValidSodoku(char[][] board)
         {
-            const int boardSize = 9;
-
             // check all rows for duplicate n*n
-            for (int row = 0; row < boardSize; row++)
+            var validRows = allRowsValid(board); // O(n*n)
+
+            var validColumns = validateColumns(board); // O(n*n)
+
+            var validBoxes = validateBoxes(board); // O(n*n)
+
+
+            // Time complexity: O(n^2)
+            // Space complexity: O(n)
+            return validRows && validColumns && validBoxes;
+        }
+
+        private static bool allRowsValid(char[][] board)
+        {
+            for (int row = 0; row < board.Length; row++)
             {
                 HashSet<char> numberSet = new HashSet<char>();
-                for (int col = 0; col < boardSize; col++)
+                for (int col = 0; col < board.Length; col++)
                 {
                     char curNum = board[row][col];
                     if (curNum == '.')
@@ -21,11 +33,16 @@
                 }
             }
 
+            return true;
+        }
+
+        private static bool validateColumns(char[][] board)
+        {
             // check all columns for duplicate n*n
-            for (int col = 0; col < boardSize; col++)
+            for (int col = 0; col < board.Length; col++)
             {
                 HashSet<char> numberSet = new HashSet<char>();
-                for (int row = 0; row < boardSize; row++)
+                for (int row = 0; row < board.Length; row++)
                 {
                     char curNum = board[row][col];
                     if (curNum == '.')
@@ -36,19 +53,23 @@
                 }
             }
 
+            return true;
+        }
 
+        private static bool validateBoxes(char[][] board)
+        {
             // check all boxes for duplicate n*n
-            for (int boxRow = 0; boxRow < boardSize / 3; boxRow++)
+            for (int boxRow = 0; boxRow < board.Length / 3; boxRow++)
             {
-                for (int boxCol = 0; boxCol < boardSize / 3; boxCol++)
+                for (int boxCol = 0; boxCol < board.Length / 3; boxCol++)
                 {
                     HashSet<char> numberSet = new HashSet<char>();
-                    for (int cellRow = 0; cellRow < boardSize / 3; cellRow++)
+                    for (int cellRow = 0; cellRow < board.Length / 3; cellRow++)
                     {
-                        for (int cellCol = 0; cellCol < boardSize / 3; cellCol++)
+                        for (int cellCol = 0; cellCol < board.Length / 3; cellCol++)
                         {
-                            int rowOffset = boxRow * 3;
-                            int colOffset = boxCol * 3;
+                            int rowOffset = boxRow * board.Length / 3;
+                            int colOffset = boxCol * board.Length / 3;
                             char curNum = board[rowOffset + cellRow][colOffset + cellCol];
                             if (curNum == '.')
                                 continue;
@@ -59,12 +80,6 @@
                     }
                 }
             }
-
-            // n*n + n*n + n*n = 3n*n
-            // Time complexity: O(n^2)
-
-            // HashMap will max be n size
-            // Space complexity: O(n)
             return true;
         }
     }
